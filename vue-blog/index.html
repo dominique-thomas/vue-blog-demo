@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Project</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<link rel="stylesheet" type="text/css" href="public/css/main.css">
+
+	</head>
+	<body>
+		<div class="ui menu inverted main">
+			<div class="ui container">
+			  <a href="#" class="header item">
+			   Logo
+			  </a>
+			  <div class="right menu">
+				
+				<a class="item" id="newPostLink">New Post</a>
+			  </div>
+			</div>
+		</div>
+		<div class="ui container main" id="main">
+			<div class="posts">
+				<div id="listPosts">
+					<h1 class="header">Posts</h1>	
+				  
+					<!-- Display Posts -->
+					<div class="ui positive message" id="postSuccess">
+					  <p>Post successfully created!</p>
+					</div>
+					
+					<div id="blogPosts" class="ui feed">
+						<post-div
+							v-for="(value, index) in paginationData" :id="`post_${index}`"
+							v-bind:post="value"
+						>			
+						</post-div>
+					
+					</div>
+					
+					<!-- Pagination -->				
+					<div class="ui divider"></div>
+					<div id="paginationContainer" class="section">
+						<div class="ui pagination menu inverted" id="paginationMenu">
+							<pagination-div v-for="items in menuArr" :id="`page_${items}`" 
+								v-bind:number="items"
+							></pagination-div>
+						</div>
+					</div>
+				</div>
+
+				 
+			</div>	
+			
+			<!-- Sidebar -->		
+			<div class="sidebar" id="sidebar">
+				<div>
+					<h3>Recent </h3>
+					<div id="recentPosts">
+						<recent-div v-for="(value, index) in blogData.slice(0,3)" :id="`sidebarPost_${index}`" :key="`snippetKey_${index}`" v-bind:post="value"> 
+						</recent-div> 
+					</div>					
+				</div>
+				<div class="ui divider"></div>
+				<div>
+					<h3>Tags</h3>
+					<div id="sidebarTags">
+						<div v-for="(value, key) in tagSidebarObj" class="ui blue labels">
+								<a class="ui label tag">
+									{{key}}<div class="detail">({{value}})</div>									
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>		
+		</div>
+		
+		<div class="ui container main" id="snippet">
+			<div class="ui button primary snippet return">Back</div><br/><br/>
+			
+			<div id="editSuccessMsg" class="ui success message hidden">Successfully edited post!</div>
+			<div id="editErrorMsg" class="ui error message hidden"></div>
+			<div id="snippetPost">
+				<snippet-div 
+							v-bind:post="activeSnippetObj"
+						>
+				</snippet-div>
+				<div class="ui submit button primary" id="editSubmitBtn" v-on:click="editValue()">Submit</div>
+			</div>
+		</div>
+		
+		<div class="ui container main" id="tags">
+			<div class="ui button primary page return">Back</div><br/><br/>
+			<div id="tagPosts" class="ui feed">
+				<post-div
+					v-for="(value, index) in tagData" :id="`post_${index}`" 
+					v-bind:post="value"
+				>			
+				</post-div>
+			</div>
+		</div>
+		
+		<!-- Display Input Field --> 				
+		<div class="ui modal">	
+			<div class="header">Make New Post</div>
+			<br/>
+			<div class="content" id="blogPostCreate">					
+				<div id="postErrorMsg" class="ui error message hidden"></div>
+				<div class="ui form">
+					<div class="field">
+						<label>Title</label>
+						<input type="text" id="blogTitle" placeholder="Title" v-model="Title" title="Title" value=""><br />
+					</div>
+					<div class="field">
+						<label>Tags (add comma for multiple)</label>
+						<input type="text" id="blogTags" placeholder="Tags" v-model="Tags" title="Tags" value=""><br />
+					</div>
+					<input type="text" id="blogUsername" value="DOM" title="Username" class="hidden">						
+					<input type="text" id="blogDate" value=""  v-model="TDate" title="Date" class="hidden">
+					<div class="field">
+						<label>Content</label>
+						<textarea rows="2" columns="3" id="blogContent" value="" v-model="Content" placeholder="Content" title="Content" class="blogContent"></textarea>
+					</div>
+					<button	v-on:click="createNewBlogObj()" class="ui button primary">Publish</button>			
+				</div>
+			</div>
+		</div>
+		<!-- Footer
+		<div class="ui vertical footer segment">
+			footer
+		</div> -->
+		<!-- Scripts -->
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+		<script type="text/javascript" src="public/js/blogData.js"></script>
+		<script type="text/javascript" src="public/js/main.js"></script>
+		
+		
+	</body>
+</html>
